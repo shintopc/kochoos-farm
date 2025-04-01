@@ -1,1 +1,100 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kochoos Farm - Driver Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <header>
+        <h1>Driver Portal</h1>
+        <button id="logoutBtn" class="btn logout">Logout</button>
+    </header>
+    <main>
+        <div class="driver-info">
+            <h2>Welcome, <span id="driverName"></span></h2>
+            <p id="currentDateTime"></p>
+        </div>
+        
+        <form id="deliveryForm">
+            <h3>New Delivery Record</h3>
+            
+            <div class="form-group">
+                <label for="deliveryDate">Date</label>
+                <input type="date" id="deliveryDate" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="deliveryTime">Time</label>
+                <input type="time" id="deliveryTime" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Location</label>
+                <button type="button" id="getLocationBtn" class="btn">Get Current Location</button>
+                <div id="locationStatus"></div>
+                <input type="hidden" id="latitude">
+                <input type="hidden" id="longitude">
+            </div>
+            
+            <div class="form-group">
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customerContact">Customer Contact</label>
+                <input type="text" id="customerContact">
+            </div>
+            
+            <div class="form-group">
+                <label for="chickenSupplied">Chicken Supplied (count)</label>
+                <input type="number" id="chickenSupplied" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="feedSupplied">Feed Supplied (kg)</label>
+                <input type="number" id="feedSupplied" min="0" step="0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="cashCollected">Cash Collected (₹)</label>
+                <input type="number" id="cashCollected" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label for="cashPending">Cash Pending (₹)</label>
+                <input type="number" id="cashPending" min="0">
+            </div>
+            
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="paymentMethod">
+                    <option value="cash">Cash</option>
+                    <option value="google_pay">Google Pay</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" rows="3"></textarea>
+            </div>
+            
+            <button type="submit" class="btn">Submit Delivery</button>
+        </form>
+        
+        <div id="deliveryMessage" class="message"></div>
+        
+        <div class="recent-deliveries">
+            <h3>Today's Deliveries</h3>
+            <div id="todayDeliveries"></div>
+        </div>
+    </main>
+    
+    <script src="js/supabase.js"></script>
+    <script src="js/driver.js"></script>
+</body>
+</html>

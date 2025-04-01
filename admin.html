@@ -1,1 +1,182 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kochoos Farm - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <button id="logoutBtn" class="btn logout">Logout</button>
+    </header>
+    
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-btn" data-tab="deliveries">Deliveries</button>
+        <button class="tab-btn" data-tab="drivers">Drivers</button>
+        <button class="tab-btn" data-tab="reports">Reports</button>
+    </nav>
+    
+    <main>
+        <div id="dashboardTab" class="tab-content active">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Today's Deliveries</h3>
+                    <p id="todayDeliveriesCount">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Revenue</h3>
+                    <p id="todayRevenue">₹0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Payments</h3>
+                    <p id="pendingPayments">₹0</p>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <h3>Today's Deliveries Map</h3>
+                <div id="deliveryMap"></div>
+            </div>
+            
+            <div class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div id="recentActivity"></div>
+            </div>
+        </div>
+        
+        <div id="deliveriesTab" class="tab-content">
+            <div class="filters">
+                <div class="form-group">
+                    <label for="deliveryDateFilter">Date</label>
+                    <input type="date" id="deliveryDateFilter">
+                </div>
+                <div class="form-group">
+                    <label for="driverFilter">Driver</label>
+                    <select id="driverFilter">
+                        <option value="">All Drivers</option>
+                    </select>
+                </div>
+                <button id="filterBtn" class="btn">Filter</button>
+                <button id="resetFilterBtn" class="btn">Reset</button>
+                <button id="exportExcelBtn" class="btn">Export to Excel</button>
+                <button id="exportPdfBtn" class="btn">Export to PDF</button>
+            </div>
+            
+            <div class="deliveries-table">
+                <table id="deliveriesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Driver</th>
+                            <th>Customer</th>
+                            <th>Chicken</th>
+                            <th>Feed (kg)</th>
+                            <th>Collected (₹)</th>
+                            <th>Pending (₹)</th>
+                            <th>Payment</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="driversTab" class="tab-content">
+            <h3>Driver Management</h3>
+            <button id="addDriverBtn" class="btn">Add New Driver</button>
+            
+            <div class="drivers-table">
+                <table id="driversTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Last Activity</th>
+                            <th>Today's Deliveries</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="reportsTab" class="tab-content">
+            <div class="report-filters">
+                <div class="form-group">
+                    <label for="reportType">Report Type</label>
+                    <select id="reportType">
+                        <option value="daily">Daily Report</option>
+                        <option value="weekly">Weekly Report</option>
+                        <option value="monthly">Monthly Report</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="reportDateGroup">
+                    <label for="reportDate">Date</label>
+                    <input type="date" id="reportDate">
+                </div>
+                
+                <div class="form-group hidden" id="reportMonthGroup">
+                    <label for="reportMonth">Month</label>
+                    <input type="month" id="reportMonth">
+                </div>
+                
+                <div class="form-group hidden" id="reportRangeGroup">
+                    <label for="reportStartDate">Start Date</label>
+                    <input type="date" id="reportStartDate">
+                    <label for="reportEndDate">End Date</label>
+                    <input type="date" id="reportEndDate">
+                </div>
+                
+                <button id="generateReportBtn" class="btn">Generate Report</button>
+                <button id="exportReportExcelBtn" class="btn">Export to Excel</button>
+                <button id="exportReportPdfBtn" class="btn">Export to PDF</button>
+            </div>
+            
+            <div class="report-results">
+                <div id="reportSummary"></div>
+                <div id="reportDetails"></div>
+                <div id="reportCharts"></div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modal for adding/editing drivers -->
+    <div id="driverModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">Add New Driver</h3>
+            <form id="driverForm">
+                <input type="hidden" id="driverId">
+                <div class="form-group">
+                    <label for="driverNameInput">Name</label>
+                    <input type="text" id="driverNameInput" required>
+                </div>
+                <div class="form-group">
+                    <label for="driverEmailInput">Email</label>
+                    <input type="email" id="driverEmailInput" required>
+                </div>
+                <div class="form-group">
+                    <label for="driverPasswordInput">Password</label>
+                    <input type="password" id="driverPasswordInput" required>
+                </div>
+                <button type="submit" class="btn">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
